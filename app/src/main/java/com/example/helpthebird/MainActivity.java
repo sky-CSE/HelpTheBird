@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    public static boolean volumeState;
+
     private ImageView volume, bird, enemy1, enemy2, enemy3, coin;
     private Button buttonStart;
     private Animation animation;
     private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,32 +40,48 @@ public class MainActivity extends AppCompatActivity {
         enemy3.setAnimation(animation);
         coin.setAnimation(animation);
 
-        mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.waiting_music);
-
+        volumeState = true; //true means prefers music to be on
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mediaPlayer.start();
+        //Assigning song in case you started game
+        //reassigning song after coming from GameActivity
+        mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.waiting_music);
+
+        if(volumeState==true) {
+            mediaPlayer.start();
+        }else if(volumeState==false){
+            mediaPlayer.pause();
+        }
 
         volume.setOnClickListener(view -> {
+            //turning of volume
             if(mediaPlayer.isPlaying()){
-                mediaPlayer.pause();
                 volume.setImageResource(R.drawable.volume_off);
+                volumeState = false;
+                mediaPlayer.pause();
             }else{
-                mediaPlayer.start();
                 volume.setImageResource(R.drawable.volume_on);
+                volumeState = true;
+                mediaPlayer.start();  //its not working for condition off<-->off and then on
             }
         });
 
+
         buttonStart.setOnClickListener(view -> {
             mediaPlayer.reset(); //audio file is closed
-            //setting another audio file for the game activity
 
             Intent i = new Intent(MainActivity.this, GameActivity.class);
             startActivity(i);
         });
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
     }
 }

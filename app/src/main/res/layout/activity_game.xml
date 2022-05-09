@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/bird" />
 
     <TextView
-        android:id="@+id/game_textViewStartInfo"
+        android:id="@+id/game_startInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -90,7 +90,7 @@
         tools:visibility="invisible" />
 
     <ImageView
-        android:id="@+id/game_score"
+        android:id="@+id/game_score_logo"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -100,7 +100,7 @@
         app:srcCompat="@drawable/coin" />
 
     <TextView
-        android:id="@+id/game_scoreCount"
+        android:id="@+id/game_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -108,7 +108,7 @@
         android:text="0"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/game_score"
+        app:layout_constraintStart_toEndOf="@+id/game_score_logo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

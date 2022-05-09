@@ -21,10 +21,17 @@ public class GameActivity extends AppCompatActivity {
     private boolean isGameStarted = false;
 
     //to repeat the movements of the characters within the specified time
-// using the Runnable and Handler
+    // using the Runnable and Handler
     private Runnable runnable;
     private Handler handler;
 
+    //Positions
+    int birdX;
+    int birdY;
+
+    //dimensions of screen
+    int screenWidth;
+    int screenHeight;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -63,10 +70,20 @@ public class GameActivity extends AppCompatActivity {
             //therefore, this touch means start the game
             if (isGameStarted == false) {
                 isGameStarted = true;
+
+                screenWidth = (int) constraintLayout.getWidth();
+                screenHeight = (int) constraintLayout.getHeight();
+
+                birdX = (int) bird.getX();
+                birdY = (int) bird.getY();
+
                 handler = new Handler();
                 runnable = new Runnable() {
                     @Override
                     public void run() {
+
+                        moveTheBird();
+
                         //movement of characters
                         //how many milliseconds run method needs to repeat
                         handler.postDelayed(runnable, 20);
@@ -87,6 +104,30 @@ public class GameActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
+
+    //just like flappy bird
+    //invert graph .... going down means increase in Y
+    //going right means increase in X
+    public void moveTheBird() {
+        if (isTouching) {//going up (updating the coordinate)
+            birdY = birdY - (screenHeight / 50);
+        } else { //going down (updating the coordinate)
+            birdY = birdY + (screenHeight / 50);
+        }
+
+        //touches top of screen and still pressing
+        //then set to roof of screen
+        if (birdY <= 0) {
+            birdY = 0;
+        }
+        //touches bottom of screen and still pressing
+        //then set to bottom of screen
+        else if(birdY >= (screenHeight - bird.getHeight())){
+            birdY = (screenHeight - bird.getHeight());
+        }
+        //applying to bird image
+        bird.setY(birdY);
     }
 
     @Override

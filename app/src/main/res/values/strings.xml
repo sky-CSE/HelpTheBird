@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Help the bird</string>
+    <string name="bird">Bird</string>
+    <string name="enemy1">Enemy 1</string>
+    <string name="enemy2">Enemy 2</string>
+    <string name="enemy3">Enemy 3</string>
+    <string name="tenPoints">10 Points</string>
+    <string name="game_instruction">The innocent bird needs to reach 500 points in order to escape from enemies and reach its nest. Can you help the bird in this challenging task?</string>
+</resources>

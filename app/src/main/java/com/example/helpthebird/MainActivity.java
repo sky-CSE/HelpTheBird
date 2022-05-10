@@ -1,6 +1,5 @@
 package com.example.helpthebird;
 
-import android.app.GameManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -57,9 +56,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(volumeState==true) {
             mediaPlayer.start();
-        }else if(volumeState==false){
-            mediaPlayer.pause();
         }
+        /*it causes media not playing for condition off<-->off and then on
+            else if(volumeState==false){
+                mediaPlayer.pause();
+            }
+         */
 
         volume.setOnClickListener(view -> {
             //turning of volume
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 volume.setImageResource(R.drawable.volume_on);
                 volumeState = true;
-                mediaPlayer.start();  //its not working for condition off<-->off and then on
+                mediaPlayer.start();
             }
         });
 

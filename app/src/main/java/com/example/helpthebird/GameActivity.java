@@ -2,7 +2,6 @@ package com.example.helpthebird;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +25,8 @@ public class GameActivity extends AppCompatActivity {
 
     //to repeat the movements of the characters within the specified time
     // using the Runnable and Handler
-    private Runnable runnable,runnable2;
-    private Handler handler,handler2;
+    private Runnable runnable, runnable2;
+    private Handler handler, handler2;
 
     //Positions
     int birdX, enemy1X, enemy2X, enemy3X, coin1X, coin2X;
@@ -81,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
 
             //screen is touched for first time (game not started)
             //therefore, this touch means start the game
-            if (isGameStarted == false) {
+            if (!isGameStarted) {
                 isGameStarted = true;
 
                 screenWidth = (int) constraintLayout.getWidth();
@@ -98,11 +97,11 @@ public class GameActivity extends AppCompatActivity {
                         moveTheBird();
                         moveEnemies();
                         collision();
-                        if(score==80){
+                        if (score == 80) {
                             constraintLayout.setBackground(getDrawable(R.drawable.bg2));
                             textViewScore.setTextColor(getColor(R.color.red_night));
                         }
-                        if(score==160){
+                        if (score == 160) {
                             // constraintLayout.setBackgroundResource(R.drawable.bg2);
                             constraintLayout.setBackground(getDrawable(R.drawable.bg1));
                         }
@@ -156,8 +155,18 @@ public class GameActivity extends AppCompatActivity {
         coin1.setVisibility(View.VISIBLE);
         coin2.setVisibility(View.VISIBLE);
 
+
         //making enemy to move towards left of the screen
         enemy1X = enemy1X - (screenWidth / 150);
+
+        //SPEEDING ENEMIES FOR MAKING GAME HARD
+        if(score >= 50 && score < 100){
+            enemy1X = enemy1X - (screenWidth / 145); //-5
+        }else if(score >= 100 && score < 150){
+            enemy1X = enemy1X - (screenWidth / 130); //-15
+        }else if(score >= 150 ){
+            enemy1X = enemy1X - (screenWidth / 105); //-25
+        }
 
         //REAPPEARING OF ENEMY
         if (enemy1X < 0) { //moved out of screen from left side
@@ -181,7 +190,16 @@ public class GameActivity extends AppCompatActivity {
         enemy1.setY(enemy1Y);
 
         //SAME CODE FOR ENEMY2, WITH DIFFERENT SPEED
-        enemy2X = enemy2X - (screenWidth / 120);
+        enemy2X = enemy2X - (screenWidth / 140);
+
+        //SPEEDING ENEMIES FOR MAKING GAME HARD
+        if(score >= 50 && score < 100){
+            enemy2X = enemy2X - (screenWidth / 135);
+        }else if(score >= 100 && score < 150){
+            enemy2X = enemy2X - (screenWidth / 120);
+        }else if(score >= 150 ){
+            enemy2X = enemy2X - (screenWidth / 95);
+        }
 
         if (enemy2X < 0) { //moved out of screen from left side
             enemy2X = screenWidth + 200;
@@ -204,7 +222,16 @@ public class GameActivity extends AppCompatActivity {
         enemy2.setY(enemy2Y);
 
         //SAME CODE FOR ENEMY3, WITH DIFFERENT SPEED
-        enemy3X = enemy3X - (screenWidth / 100);
+        enemy3X = enemy3X - (screenWidth / 130);
+
+        //SPEEDING ENEMIES FOR MAKING GAME HARD
+        if(score >= 50 && score < 100){
+            enemy3X = enemy3X - (screenWidth / 125);
+        }else if(score >= 100 && score < 150){
+            enemy3X = enemy3X - (screenWidth / 110);
+        }else if(score >= 150 ){
+            enemy3X = enemy3X - (screenWidth / 85);
+        }
 
         //REAPPEARING OF ENEMY
         if (enemy3X < 0) { //moved out of screen from left side
@@ -329,7 +356,7 @@ public class GameActivity extends AppCompatActivity {
         {
             coin1X = screenWidth + 200;
             score += 10;
-            textViewScore.setText(""+score);
+            textViewScore.setText("" + score);
         }
 
         //setting coin2 center in its middle (by default : at top left)
@@ -343,15 +370,14 @@ public class GameActivity extends AppCompatActivity {
         {
             coin2X = screenWidth + 200;
             score += 10;
-            textViewScore.setText(""+score);
+            textViewScore.setText("" + score);
         }
 
         //GAME IS RUNNING
-        if(life > 0 && score < SCORE_TO_WIN_GAME){
-            if(life == 2){
+        if (life > 0 && score < SCORE_TO_WIN_GAME) {
+            if (life == 2) {
                 life1.setVisibility(View.INVISIBLE);
-            }
-            else if(life == 1){
+            } else if (life == 1) {
                 life2.setVisibility(View.INVISIBLE);
             }
             /*movement of characters is provided by this
@@ -369,11 +395,11 @@ public class GameActivity extends AppCompatActivity {
             Third : Move the bird to center of screen and then let it go to end
             Fourth : After the bird reaches end, move to Result Activity
          */
-        else if(score >= SCORE_TO_WIN_GAME){
+        else if (score >= SCORE_TO_WIN_GAME) {
             handler.removeCallbacks(runnable);
             constraintLayout.setEnabled(false);
 
-            startInfo.setText("Congratulations, You helped the bird successfully");
+            startInfo.setText(R.string.congrats);
             startInfo.setVisibility(View.VISIBLE);
             enemy1.setVisibility(View.INVISIBLE);
             enemy2.setVisibility(View.INVISIBLE);
@@ -390,17 +416,17 @@ public class GameActivity extends AppCompatActivity {
             runnable2 = new Runnable() {
                 @Override
                 public void run() {
-                    birdX = birdX + (screenWidth/300);
+                    birdX = birdX + (screenWidth / 300);
                     bird.setX(birdX);
-                    bird.setY(screenHeight/2f);
+                    bird.setY(screenHeight / 2f);
                     //bird not reached to end, provide movement
-                    if(birdX <= screenWidth){
-                        handler2.postDelayed(runnable2,20);
-                    }else{ //bird reached end, stop providing movement and move to ResultActivity
+                    if (birdX <= screenWidth) {
+                        handler2.postDelayed(runnable2, 20);
+                    } else { //bird reached end, stop providing movement and move to ResultActivity
                         handler.removeCallbacks(runnable2);
 
-                        Intent i = new Intent(GameActivity.this,ResultActivity.class);
-                        i.putExtra("score",score);
+                        Intent i = new Intent(GameActivity.this, ResultActivity.class);
+                        i.putExtra("score", score);
                         startActivity(i);
                         finish();
                     }
@@ -409,12 +435,12 @@ public class GameActivity extends AppCompatActivity {
             handler2.post(runnable2);
         }
         //LOST THE GAME
-        else if(life == 0){
+        else if (life == 0) {
             handler.removeCallbacks(runnable); // Stop the run method
 
             life3.setVisibility(View.INVISIBLE);
-            Intent i = new Intent(GameActivity.this,ResultActivity.class);
-            i.putExtra("score",score);
+            Intent i = new Intent(GameActivity.this, ResultActivity.class);
+            i.putExtra("score", score);
             startActivity(i);
             finish();
         }

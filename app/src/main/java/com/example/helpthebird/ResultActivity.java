@@ -52,8 +52,6 @@ public class ResultActivity extends AppCompatActivity {
         }
 
         buttonAgain.setOnClickListener(view -> {
-            Intent i = new Intent(ResultActivity.this, MainActivity.class);
-            startActivity(i);
             finish();
         });
     }

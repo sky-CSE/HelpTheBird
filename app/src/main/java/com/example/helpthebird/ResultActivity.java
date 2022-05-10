@@ -1,5 +1,7 @@
 package com.example.helpthebird;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,18 +36,18 @@ public class ResultActivity extends AppCompatActivity {
 
         //WON THE GAME
         if (score >= GameActivity.SCORE_TO_WIN_GAME) {
-            textViewResultInfo.setText("You won the game");
+            textViewResultInfo.setText(R.string.won_game_message);
             textViewHighestScore.setText("Highest score : " + score);
             sharedPreferences.edit().putInt("highestScore", score).apply();
         }
         //LOST THE GAME, BUT SCORED HIGHER THAN B4
         else if (score >= highestScore) {
-            textViewResultInfo.setText("Sorry, you lost the game");
+            textViewResultInfo.setText(R.string.lost_game_message);
             textViewHighestScore.setText("Highest score : " + score);
             sharedPreferences.edit().putInt("highestScore", score).apply();
         } else //LOST THE GAME, NEITHER SCORED HIGHER THAN B4
         {
-            textViewResultInfo.setText("Sorry, you lost the game");
+            textViewResultInfo.setText(R.string.lost_game_message);
             textViewHighestScore.setText("Highest score : " + highestScore);
         }
 
@@ -56,4 +58,31 @@ public class ResultActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ResultActivity.this);
+        builder.setTitle("Help the Bird");
+        builder.setMessage("Are you sure you want to quit game?");
+        builder.setCancelable(false);
+
+        builder.setNegativeButton(R.string.quit_game_option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+        });
+
+        builder.setPositiveButton(R.string.cancel_game_option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.cancel();
+            }
+        });
+
+        builder.create().show();
+    }
 }

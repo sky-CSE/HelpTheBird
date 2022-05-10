@@ -3,11 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/drawable/background_play_again.xml" value="0.1" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/drawable/volume_off.xml" value="0.2265" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/drawable/volume_on.xml" value="0.2265" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/layout/activity_game.xml" value="0.2671875" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/layout/activity_main.xml" value="0.2671875" />
-        <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/layout/activity_result.xml" value="0.2546875" />
+        <entry key="..\:/Users/Sumeet/AndroidStudioProjects/HelpTheBird/app/src/main/res/layout/activity_result.xml" value="0.2594594594594595" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/Helpthebird/app/src/main/res/drawable/background_start_button.xml" value="0.2265" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/Helpthebird/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.2265" />
         <entry key="..\:/Users/Sumeet/AndroidStudioProjects/Helpthebird/app/src/main/res/drawable/ic_baseline_volume_up_26.xml" value="0.2265" />

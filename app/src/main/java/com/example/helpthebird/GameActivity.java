@@ -2,11 +2,13 @@ package com.example.helpthebird;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameActivity extends AppCompatActivity {
-    private static final int SCORE_TO_WIN_GAME = 250;
+    public static final int SCORE_TO_WIN_GAME = 250;
     private MediaPlayer mediaPlayer;
     private ImageView bird, enemy1, enemy2, enemy3, coin1, coin2, life1, life2, life3, scoreLogo;
     private TextView textViewScore, startInfo;
@@ -46,6 +48,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        //FULLSCREEN
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         bird = findViewById(R.id.game_bird);
         enemy1 = findViewById(R.id.game_enemy1);
@@ -93,6 +98,14 @@ public class GameActivity extends AppCompatActivity {
                         moveTheBird();
                         moveEnemies();
                         collision();
+                        if(score==80){
+                            constraintLayout.setBackground(getDrawable(R.drawable.bg2));
+                            textViewScore.setTextColor(getColor(R.color.red_night));
+                        }
+                        if(score==160){
+                            // constraintLayout.setBackgroundResource(R.drawable.bg2);
+                            constraintLayout.setBackground(getDrawable(R.drawable.bg1));
+                        }
 
                     }
                 };
@@ -405,7 +418,6 @@ public class GameActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-
     }
 
     @Override

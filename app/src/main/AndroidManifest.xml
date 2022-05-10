@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelpTheBird">
         <activity
+            android:name=".ResultActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

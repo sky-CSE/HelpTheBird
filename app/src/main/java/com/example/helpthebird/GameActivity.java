@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class GameActivity extends AppCompatActivity {
-    private static final int SCORE_TO_WIN_GAME = 100;
+    private static final int SCORE_TO_WIN_GAME = 250;
     private MediaPlayer mediaPlayer;
     private ImageView bird, enemy1, enemy2, enemy3, coin1, coin2, life1, life2, life3, scoreLogo;
     private TextView textViewScore, startInfo;
@@ -24,8 +24,8 @@ public class GameActivity extends AppCompatActivity {
 
     //to repeat the movements of the characters within the specified time
     // using the Runnable and Handler
-    private Runnable runnable;
-    private Handler handler;
+    private Runnable runnable,runnable2;
+    private Handler handler,handler2;
 
     //Positions
     int birdX, enemy1X, enemy2X, enemy3X, coin1X, coin2X;
@@ -351,17 +351,53 @@ public class GameActivity extends AppCompatActivity {
         }
         //WON THE GAME
         /*
-            First : Stop the run method
+            First : Stop the run method and make screen touch unresponsive
+            Second : Show Text and make everything invisible
+            Third : Move the bird to center of screen and then let it go to end
+            Fourth : After the bird reaches end, move to Result Activity
          */
         else if(score >= SCORE_TO_WIN_GAME){
             handler.removeCallbacks(runnable);
+            constraintLayout.setEnabled(false);
+
+            startInfo.setText("Congratulations, You helped the bird successfully");
+            startInfo.setVisibility(View.VISIBLE);
+            enemy1.setVisibility(View.INVISIBLE);
+            enemy2.setVisibility(View.INVISIBLE);
+            enemy3.setVisibility(View.INVISIBLE);
+            coin1.setVisibility(View.INVISIBLE);
+            coin2.setVisibility(View.INVISIBLE);
+            life1.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+            scoreLogo.setVisibility(View.INVISIBLE);
+            textViewScore.setVisibility(View.INVISIBLE);
+
+            handler2 = new Handler();
+            runnable2 = new Runnable() {
+                @Override
+                public void run() {
+                    birdX = birdX + (screenWidth/300);
+                    bird.setX(birdX);
+                    bird.setY(screenHeight/2f);
+                    //bird not reached to end, provide movement
+                    if(birdX <= screenWidth){
+                        handler2.postDelayed(runnable2,20);
+                    }else{ //bird reached end, stop providing movement and move to ResultActivity
+                        handler.removeCallbacks(runnable2);
+
+                        Intent i = new Intent(GameActivity.this,ResultActivity.class);
+                        i.putExtra("score",score);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+            };
+            handler2.post(runnable2);
         }
         //LOST THE GAME
-        /*
-            Stop the run method
-         */
         else if(life == 0){
-            handler.removeCallbacks(runnable);
+            handler.removeCallbacks(runnable); // Stop the run method
 
             life3.setVisibility(View.INVISIBLE);
             Intent i = new Intent(GameActivity.this,ResultActivity.class);
